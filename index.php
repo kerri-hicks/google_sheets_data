@@ -2,68 +2,65 @@
 //header('Content-type: application/json');
  
 // get the CSV feed
-$feed = 'URL HERE;
+$feed = 'URL here' ;
  
 // define arrays
-$keys = array();
-$newArray = array();
+$keys = array() ;
+$newArray = array() ;
  
 // Function to convert CSV into associative array
 function csvToArray($file, $delimiter) { 
   if (($handle = fopen($file, 'r')) !== FALSE) { 
-    $i = 0; 
+    $i = 0 ; 
     while (($lineArray = fgetcsv($handle, 4000, $delimiter, '"')) !== FALSE) { 
-      for ($j = 0; $j < count($lineArray); $j++) { 
-        $arr[$i][$j] = $lineArray[$j]; 
+      for ($j = 0; $j < count($lineArray) ; $j++) { 
+        $arr[$i][$j] = $lineArray[$j] ; 
       } 
-      $i++; 
+      $i++ ; 
     } 
-    fclose($handle); 
+    fclose($handle) ; 
   } 
-  return $arr; 
+  return $arr ; 
 } 
  
 // make the array
-$data = csvToArray($feed, ',');
+$data = csvToArray($feed, ',') ;
  
 // set number of elements (minus 1 because we shift off the first row)
-$count = count($data) - 1;
+$count = count($data) - 1 ;
  
 // use first row for names  
-$labels = array_shift($data);  
+$labels = array_shift($data) ;  
  
 foreach ($labels as $label) {
-  $keys[] = $label;
+  $keys[] = $label ;
 }
  
 // Add Ids, just in case we want them later
-$keys[] = 'id';
+$keys[] = 'id' ;
  
-for ($i = 0; $i < $count; $i++) {
-  $data[$i][] = $i;
+for ($i = 0 ; $i < $count ; $i++) {
+  $data[$i][] = $i ;
 }
  
 // Bring it all together
-for ($j = 0; $j < $count; $j++) {
-  $d = array_combine($keys, $data[$j]);
-  $newArray[$j] = $d;
+for ($j = 0 ; $j < $count ; $j++) {
+  $d = array_combine($keys, $data[$j]) ;
+  $newArray[$j] = $d ;
 }
 
  
-// Print it out as JSON
-$json_block = json_encode($newArray);
- 
-//echo $json_block ;  
-
-$data_points = json_decode($json_block, true) ;
+// Print it out as JSON, in case it might be useful elsewhere to have some JSON
+// $json_block = json_encode($newArray);
+// $newNewArray = json_decode($json_block, true) ;
 
 $count = 0 ;
 
 $display_block = "<div class='card_deck'>" ;
 
-foreach($data_points[0] as $label => $data_point) {
-	if($count < 6) {
-		$display_block .= "<div class='card'><div class='card_top'>$label</div><div class='card_bottom'>$data_point</div></div>";
+foreach($newArray[0] as $card_top_label => $card_bottom_data_point) {
+	if($count < 15) {
+		$display_block .= "<div class='card'><div class='card_top'>$card_top_label</div><div class='card_bottom'>$card_bottom_data_point</div></div>" ;
 		++$count ; 
 	}
 }
