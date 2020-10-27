@@ -2,7 +2,7 @@
 //header('Content-type: application/json');
  
 // get the CSV feed
-$feed = 'URL here' ;
+$feed = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9Vk_RN_0stizEdJEMoXMO-b-NQAh8IYt7HtkGFTQ_VjQSRbnKAju64TK_eI1w1ZddkTScw0t9zTAv/pub?gid=1298374022&single=true&output=csv" ;
  
 // define arrays
 $keys = array() ;
@@ -58,9 +58,14 @@ $count = 0 ;
 
 $display_block = "<div class='card_deck'>" ;
 
-foreach($newArray[0] as $card_top_label => $card_bottom_data_point) {
-	if($count < 15) {
-		$display_block .= "<div class='card'><div class='card_top'>$card_top_label</div><div class='card_bottom'>$card_bottom_data_point</div></div>" ;
+foreach($newArray[0] as $card_label_label => $card_data_data_point) {
+	if($count < 6) {
+		if($count == 0) {
+			$display_block .= '<h3 class="poster_section_head">About Reserves</h3>' ;
+		}elseif($count == 3){
+			$display_block .= '<h3 class="poster_section_head">About Books</h3>' ;
+		}
+		$display_block .= "<div class='card'><div class='card_data'>$card_data_data_point</div><div class='card_label'>$card_label_label</div></div>" ;
 		++$count ; 
 	}
 }
@@ -69,11 +74,7 @@ $display_block .= "</div>" ;
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8" />
-	<title></title>
+
 	<style type="text/css">		
 		:root {
 		  --brown_brown : #4e3629 ;
@@ -101,43 +102,68 @@ $display_block .= "</div>" ;
 		
 		.card {
 			padding : 0px ; 
-			font-family : Arial, Helvetica, sans-serif ;
+			font-family : Minion Pro, sans-serif ;
 			width : 25% ;
 			height : auto ;
-			margin : 20px ; 
+			margin : 0px 20px ; 
 			text-align : center ; 
-			background-color : var(--brown_gold) ;
 			box-sizing : border-box ;
-			box-shadow : 0px 1px 3px #999 ; 
 		}
 		
-		.card_top {
-			background-color : var(--brown_red) ;
-			color : #fff ;
-			width : 100% ;
-			font-weight : bold ;
+		.card_label {
+			font-size: 1.6vw;
+			color: #5b5b5b;
+			margin: 0 0 1em;
 			padding : 6px ;
 			box-sizing : border-box ; 
-			font-size : 1.8vw ;
 		}
 		
-		.card_bottom {
+		.card_data {
 			color : #000 ;
-			width : 100% ;
-			font-size : 2.5em ;
+			font-family: CircularStd,sans-serif;
+			font-weight: 700;
+			font-size: 3vw;
+			margin: 0 .15em;
 			padding : 6px ;
 			box-sizing : border-box ; 
-			font-size : 2.5vw ; 
 		}
 		
+		.poster_section_head {
+			width : 100% ; 
+			text-align : center ;
+			margin : 15px 0px 0px 0px ; 
+			font-size : 2.2vw ;
+			font-family : Minion Pro ;
+		}
+		
+		#opener {
+			margin-top : 30px ; 
+			color : var(--brown_red) ;
+			font-weight : bold ; 
+			text-align : center ;
+			font-size : 4vw ;
+			font-family : Minion Pro ;
+		}
+		
+		hr.stats_poster {
+			width : 90% ; 
+			height : 4px ; 
+			color : var(--brown_gold) ; 
+			background-color : var(--brown_gold) ; 
+			border-width : 0 ;
+		}
+		
+		#statsframe {
+			width : 90% ; 
+			margin : auto ; 
+		}
 	</style>
-</head>
-<body>
-<p id="opener">
-	Text for the top
-</p>
+<div id="statsframe">
+	<h2 id="opener">
+		Library Statistics
+	</h2>
 
-<?php echo $display_block ; ?>
-
-</body>
-</html>
+	<hr class="stats_poster" />
+	<?php echo $display_block ; ?>
+	<hr class="stats_poster" />
+</div>
